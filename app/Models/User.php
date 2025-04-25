@@ -12,7 +12,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles ,HasApiTokens;
+    use HasFactory, Notifiable, HasRoles, HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -35,6 +35,20 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+
+    public function getImageAttribute(): ?string
+    {
+        if (!isset($this->attributes['image'])) {
+            return null;
+        }
+
+        return route('private.image', [
+            'folder' => 'user_images',
+            'filename' => $this->attributes['image'],
+        ]);
+    }
+
 
     public function posts()
     {

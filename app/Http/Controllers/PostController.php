@@ -32,7 +32,7 @@ class PostController extends Controller
     {
         try {
             $post = $this->postService->create($request->validated());
-            return $this->successResponse($post, __('messages.posts.created'));
+            return $this->successResponse($post, __('messages.posts.created'),201);
         } catch (\Exception $e) {
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
         }

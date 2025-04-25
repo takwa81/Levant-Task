@@ -7,7 +7,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/private-image/{folder}/{filename}', function ($folder, $filename) {
+Route::get('/private/{folder}/{filename}', function ($folder, $filename) {
     $path = "{$folder}/{$filename}";
 
     if (!Storage::disk('private')->exists($path)) {

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\PostCreated;
 use App\Http\Resources\PostResource;
 use App\PaginationEnum;
 use App\Repositories\PostRepository;
@@ -53,6 +54,9 @@ class PostService
         }
 
         $post = auth()->user()->posts()->create($data);
+
+        event(new PostCreated($post, auth()->user()));
+
         return new PostResource($post);
     }
 
@@ -80,7 +84,7 @@ class PostService
         $post = $this->postRepository->find($id);
 
         if ($post->user_id !== auth()->user()->id) {
-            throw new \Exception(__('messages.posts.unauthorized'));
+            throw new \Exception(__('messages.posts.unauthorized_delete'));
         }
 
         $post->delete();
