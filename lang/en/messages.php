@@ -70,6 +70,7 @@ return [
         'created' => 'User created successfully.',
         'updated' => 'User updated successfully.',
         'list_success' => 'Users retrieved successfully.',
+        'deleted' => 'User deleted successfully.',
     ],
 
     'errors' => [

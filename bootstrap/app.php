@@ -43,14 +43,6 @@ return Application::configure(basePath: dirname(__DIR__))
             ], 405);
         });
 
-        $exceptions->render(function (ValidationException $e, $request) {
-            return response()->json([
-                'success' => false,
-                'message' => __('messages.errors.validation_failed'),
-                'data' => $e->errors(),
-            ], 422);
-        });
-
         $exceptions->render(function (Throwable $e, $request) {
             return response()->json([
                 'success' => false,

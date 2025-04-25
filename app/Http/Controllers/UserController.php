@@ -32,7 +32,7 @@ class UserController extends Controller
     {
         try {
             $user = $this->userService->create($request->validated());
-            return $this->successResponse(new UserResource($user), __('messages.users.created'),201);
+            return $this->successResponse(new UserResource($user), __('messages.users.created'), 201);
         } catch (\Exception $e) {
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
         }
@@ -43,6 +43,16 @@ class UserController extends Controller
         try {
             $user = $this->userService->update($id, $request->validated());
             return $this->successResponse(new UserResource($user), __('messages.users.updated'));
+        } catch (\Exception $e) {
+            return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $this->userService->delete($id);
+            return $this->successResponse(null, __('messages.users.deleted'));
         } catch (\Exception $e) {
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
         }

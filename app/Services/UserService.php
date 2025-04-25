@@ -9,7 +9,7 @@ use App\Traits\ImageHandler;
 
 class UserService
 {
-    use ResultTrait , ImageHandler;
+    use ResultTrait, ImageHandler;
 
 
     protected UserRepository $userRepository;
@@ -57,5 +57,12 @@ class UserService
         $user->update($data);
 
         return $user;
+    }
+
+    public function delete($id)
+    {
+        $user = $this->userRepository->find($id);
+
+        $user->delete();
     }
 }
