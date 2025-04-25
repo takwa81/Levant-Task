@@ -27,6 +27,11 @@ class UserSeeder extends Seeder
                 'email' => 'takwa.alnassouh@expentech.com',
                 'password' => 'password',
             ],
+            [
+                'name' => 'AI',
+                'email' => 'ai@openai.com',
+                'password' => 'password',
+            ],
         ];
 
         $normalUsers = [

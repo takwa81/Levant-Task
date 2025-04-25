@@ -29,9 +29,9 @@ class GenerateAutoReplyJob implements ShouldQueue
 
         if ($replyText) {
             $this->comment->replies()->create([
-                'user_id' => User::first()->id,
+                'user_id' => User::where('name','AI')->first()->id,
                 'comment' => $replyText,
-                'post_id'  => $this->comment->post_id   
+                'post_id'  => $this->comment->post_id
             ]);
 
             Log::info('Reply stored successfully.', ['comment_id' => $this->comment->id]);
