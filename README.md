@@ -4,7 +4,7 @@ A Laravel 12 RESTful API project to manage posts and comments, with role-based a
 
 ---
 
-## 🚀 Features
+##  Features
 
 - User authentication with email and password
 - Admin and Regular User privileges
@@ -22,7 +22,7 @@ A Laravel 12 RESTful API project to manage posts and comments, with role-based a
 
 ---
 
-## 📚 Requirements
+##  Requirements
 
 - PHP >= 8.2
 - Composer
@@ -31,7 +31,7 @@ A Laravel 12 RESTful API project to manage posts and comments, with role-based a
 
 ---
 
-## ⚙️ Installation and Setup
+##  Installation and Setup
 
 ### 1. Clone and install dependencies
 
@@ -41,6 +41,9 @@ cd Levant-Task
 composer install
 cp .env.example .env
 php artisan key:generate
+
+
+
 DB_DATABASE=your_database
 DB_USERNAME=your_username
 DB_PASSWORD=your_password
@@ -62,20 +65,15 @@ OPENAI_API_KEY=your_openai_api_key
 
 
 
-# Summary 
-# Install composer dependencies
-composer install
+#  Summary of Important Commands
 
-# Copy environment file and generate app key
-cp .env.example .env
-php artisan key:generate
+| Command | Purpose |
+|--------|---------|
+| `composer install` | Install all PHP project dependencies listed in `composer.json`. |
+| `cp .env.example .env` | Create a new environment configuration file `.env` by copying the example. |
+| `php artisan key:generate` | Generate a new unique application key for encryption and app security. |
+| `php artisan migrate --seed` | Run database migrations and insert initial test data into the database. |
+| `php artisan serve` | Start the Laravel local development server on `http://127.0.0.1:8000`. |
+| `php artisan queue:work` | Start the queue worker to handle background jobs (sending emails, AI replies, etc.). |
 
-# Run database migrations and seeds
-php artisan migrate --seed
-
-# Start development server
-php artisan serve
-
-# Run queue worker
-php artisan queue:work
 
