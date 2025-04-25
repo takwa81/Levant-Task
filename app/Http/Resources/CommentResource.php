@@ -22,6 +22,8 @@ class CommentResource extends JsonResource
                 'name' => $this->user?->name,
             ],
             'created_at' => $this->created_at->diffForHumans(),
+            'replies'    => CommentResource::collection($this->whenLoaded('replies')),
+
         ];
     }
 }

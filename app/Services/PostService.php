@@ -11,7 +11,7 @@ use App\Traits\ResultTrait;
 
 class PostService
 {
-    use ResultTrait , ImageHandler;
+    use ResultTrait, ImageHandler;
     protected PostRepository $postRepository;
 
     public function __construct(PostRepository $postRepository)
@@ -23,10 +23,15 @@ class PostService
     {
         $perPage = PaginationEnum::DefaultCount->value;
 
-        $query = $this->postRepository->makeModel()
+        $query = $this->postRepository
             ->with([
                 'user:id,name',
-                'comments.user:id,name',
+                'comments' => function ($query) {
+                    $query->whereNull('parent_id')->with([
+                        'user:id,name',
+                        'replies.user:id,name',
+                    ]);
+                },
             ])
             ->latest();
 

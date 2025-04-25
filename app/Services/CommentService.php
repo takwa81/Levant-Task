@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\CommentCreated;
 use App\Http\Resources\CommentResource;
 use App\Repositories\CommentRepository;
 use App\Models\Post;
@@ -26,11 +27,15 @@ class CommentService
     public function create($post_id, array $data)
     {
         $post = $this->postRepository->find($post_id);
-        return $this->commentRepository->create([
+        $comment = $this->commentRepository->create([
             'post_id' => $post->id,
             'user_id' => auth()->user()->id,
             'comment' => $data['comment'],
         ]);
+
+        event(new CommentCreated($comment));
+
+        return $comment;
     }
 
     public function getAll($post_id)
@@ -40,7 +45,7 @@ class CommentService
         $perPage = PaginationEnum::DefaultCount->value;
 
         $query = $post->comments()
-            ->with('user:id,name')
+            ->with('user', 'replies.user')
             ->latest();
 
         $comments = $query->paginate($perPage);
@@ -50,5 +55,4 @@ class CommentService
             'pagination' => $this->paginationResult($comments),
         ];
     }
-
 }
