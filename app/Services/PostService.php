@@ -5,11 +5,12 @@ namespace App\Services;
 use App\Http\Resources\PostResource;
 use App\PaginationEnum;
 use App\Repositories\PostRepository;
+use App\Traits\ImageHandler;
 use App\Traits\ResultTrait;
 
 class PostService
 {
-    use ResultTrait;
+    use ResultTrait , ImageHandler;
     protected PostRepository $postRepository;
 
     public function __construct(PostRepository $postRepository)
@@ -46,6 +47,11 @@ class PostService
 
     public function create(array $data)
     {
+
+        if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
+            $data['image'] = $this->storeImage($data['image'], 'post_images');
+        }
+
         $post = auth()->user()->posts()->create($data);
         return new PostResource($post);
     }
@@ -58,6 +64,13 @@ class PostService
             throw new \Exception(__('messages.posts.unauthorized'));
         }
 
+        if (isset($data['image']) && $data['image'] instanceof \Illuminate\Http\UploadedFile) {
+            $data['image'] = $this->updateImage(
+                $data['image'],
+                $post->image,
+                'post_images'
+            );
+        }
         $post->update($data);
         return new PostResource($post);
     }
