@@ -21,7 +21,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         try {
-            $posts = $this->postService->getAll($request->per_page ?? 10);
+            $posts = $this->postService->getAll($request->get('search'));
             return $this->successResponse($posts, __('messages.posts.list_success'));
         } catch (\Exception $e) {
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);

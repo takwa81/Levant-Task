@@ -3,10 +3,13 @@
 namespace App\Services;
 
 use App\Http\Resources\PostResource;
+use App\PaginationEnum;
 use App\Repositories\PostRepository;
+use App\Traits\ResultTrait;
 
 class PostService
 {
+    use ResultTrait;
     protected PostRepository $postRepository;
 
     public function __construct(PostRepository $postRepository)
@@ -14,16 +17,37 @@ class PostService
         $this->postRepository = $postRepository;
     }
 
-    public function getAll($perPage = 10)
+    public function getAll(?string $search = null)
     {
-        $posts = $this->postRepository->getPostsWithComments($perPage);
-        return PostResource::collection($posts);
+        $perPage = PaginationEnum::DefaultCount->value;
+
+        $query = $this->postRepository->makeModel()
+            ->with([
+                'user:id,name',
+                'comments.user:id,name',
+            ])
+            ->latest();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%$search%")
+                    ->orWhere('content', 'LIKE', "%$search%");
+            });
+        }
+
+        $posts = $query->paginate($perPage);
+
+
+        return [
+            'posts' => PostResource::collection($posts)->response()->getData(true)['data'],
+            'pagination' => $this->paginationResult($posts),
+        ];
     }
 
     public function create(array $data)
     {
         $post = auth()->user()->posts()->create($data);
-        return $post;
+        return new PostResource($post);
     }
 
     public function update($id, array $data)
@@ -35,7 +59,7 @@ class PostService
         }
 
         $post->update($data);
-        return $post;
+        return new PostResource($post);
     }
 
     public function delete($id)

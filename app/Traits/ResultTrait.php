@@ -30,4 +30,19 @@ trait ResultTrait
             'data' => null,
         ], 404);
     }
+
+
+    public function paginationResult(\Illuminate\Contracts\Pagination\LengthAwarePaginator $paginated): array
+    {
+        return [
+            'current_page'     => $paginated->currentPage(),
+            'per_page'         => $paginated->perPage(),
+            'total'            => $paginated->total(),
+            'last_page'        => $paginated->lastPage(),
+            'next_page'        => $paginated->nextPageUrl(),
+            'previous_page'    => $paginated->previousPageUrl(),
+            'has_next_page'    => $paginated->hasMorePages(),
+            'has_previous_page' => $paginated->currentPage() > 1,
+        ];
+    }
 }
