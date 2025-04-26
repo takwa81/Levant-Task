@@ -19,13 +19,22 @@ class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function getAll()
+    public function getAll($request)
     {
         $perPage = PaginationEnum::DefaultCount->value;
+        $name = $request->name ;
+        $email = $request->email ;
+        $query = $this->userRepository->latest();
 
-        $users = $this->userRepository->makeModel()
-            ->latest()
-            ->paginate($perPage);
+        if ($name) {
+            $query->where('name', 'LIKE', "%$name%");
+        }
+
+        if ($email) {
+            $query->where('email', 'LIKE', "%$email%");
+        }
+
+        $users = $query->paginate($perPage);
 
         return [
             'users' => $users->items(),

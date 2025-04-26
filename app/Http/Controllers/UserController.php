@@ -6,6 +6,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
 use App\Traits\ResultTrait;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -18,10 +19,10 @@ class UserController extends Controller
         $this->userService = $userService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = $this->userService->getAll();
+            $data = $this->userService->getAll($request);
             return $this->successResponse($data, __('messages.users.list_success'));
         } catch (\Exception $e) {
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
