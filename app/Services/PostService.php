@@ -22,7 +22,7 @@ class PostService
     public function getAll($request)
     {
         $perPage = PaginationEnum::DefaultCount->value;
-        $search = $request->search ;
+        $search = $request->search;
         $query = $this->postRepository
             ->with([
                 'user:id,name',
@@ -43,11 +43,12 @@ class PostService
         }
 
         $posts = $query->paginate($perPage);
-
+        $postCount = $query->count();
 
         return [
             'posts' => PostResource::collection($posts)->response()->getData(true)['data'],
             'pagination' => $this->paginationResult($posts),
+            'post_count' => $postCount,
         ];
     }
 

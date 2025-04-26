@@ -35,10 +35,12 @@ class UserService
         }
 
         $users = $query->paginate($perPage);
+        $userCount = $query->count();
 
         return [
             'users' => $users->items(),
             'pagination' => $this->paginationResult($users),
+            'user_count' => $userCount, 
         ];
     }
 
