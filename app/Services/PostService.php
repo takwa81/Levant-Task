@@ -19,10 +19,10 @@ class PostService
         $this->postRepository = $postRepository;
     }
 
-    public function getAll(?string $search = null)
+    public function getAll($request)
     {
         $perPage = PaginationEnum::DefaultCount->value;
-
+        $search = $request->search ;
         $query = $this->postRepository
             ->with([
                 'user:id,name',

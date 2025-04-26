@@ -45,6 +45,7 @@ class CommentService
         $perPage = PaginationEnum::DefaultCount->value;
 
         $query = $post->comments()
+            ->whereNull('parent_id')
             ->with('user', 'replies.user')
             ->latest();
 
@@ -55,6 +56,4 @@ class CommentService
             'pagination' => $this->paginationResult($comments),
         ];
     }
-
-  
 }
