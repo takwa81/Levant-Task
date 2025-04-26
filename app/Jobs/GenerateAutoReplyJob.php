@@ -29,7 +29,7 @@ class GenerateAutoReplyJob implements ShouldQueue
 
         if ($replyText) {
             $this->comment->replies()->create([
-                'user_id' => User::where('name','AI')->first()->id,
+                'user_id' => User::where('name','AI User')->first()->id,
                 'comment' => $replyText,
                 'post_id'  => $this->comment->post_id
             ]);

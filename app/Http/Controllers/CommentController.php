@@ -30,7 +30,7 @@ class CommentController extends Controller
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
         }
     }
-    
+
     public function store(CommentRequest $request, $post)
     {
         try {
@@ -40,6 +40,4 @@ class CommentController extends Controller
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
         }
     }
-
-
 }

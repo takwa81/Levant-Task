@@ -27,12 +27,10 @@ class UserSeeder extends Seeder
                 'email' => 'takwa.alnassouh@expentech.com',
                 'password' => 'password',
             ],
-            [
-                'name' => 'AI',
-                'email' => 'ai@openai.com',
-                'password' => 'password',
-            ],
+
         ];
+
+        $normalUserRole = Role::firstOrCreate(['name' => 'Normal User']);
 
         $normalUsers = [
             [
@@ -51,8 +49,13 @@ class UserSeeder extends Seeder
                 'password' => 'password',
             ],
             [
-                'name' => 'Admin User 2',
+                'name' => 'Takwa Mohammad',
                 'email' => 'takwamuhamad69@gmail.com',
+                'password' => 'password',
+            ],
+            [
+                'name' => 'AI User',
+                'email' => 'ai@openai.com',
                 'password' => 'password',
             ],
         ];
@@ -71,7 +74,7 @@ class UserSeeder extends Seeder
         }
 
         foreach ($normalUsers as $userData) {
-            User::firstOrCreate(
+            $user = User::firstOrCreate(
                 ['email' => $userData['email']],
                 [
                     'name' => $userData['name'],
@@ -79,6 +82,8 @@ class UserSeeder extends Seeder
                     'image' => 'default.png',
                 ]
             );
+            $user->assignRole($normalUserRole);
+
         }
     }
 }

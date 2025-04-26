@@ -51,6 +51,29 @@ class PostService
         ];
     }
 
+    public function getById(int $id)
+    {
+        $post = $this->postRepository
+            ->with([
+                'user:id,name',
+                'comments' => function ($query) {
+                    $query->whereNull('parent_id')
+                        ->with([
+                            'user:id,name',
+                            'replies.user:id,name',
+                        ]);
+                },
+            ])
+            ->find($id);
+
+        if (!$post) {
+            throw new \Exception(__('messages.posts.not_found'), 404);
+        }
+
+        return new PostResource($post);
+    }
+
+
     public function create(array $data)
     {
 

@@ -15,6 +15,8 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::apiResource('posts', PostController::class);
     Route::post('posts/{post_id}/comments', [CommentController::class, 'store']);
     Route::get('posts/{post_id}/comments', [CommentController::class, 'index']);
+    Route::get('/posts/{post}/comments/ai-replies', [CommentController::class, 'getAiReplies']);
+
     Route::middleware(['role.admin'])->group(function () {
         Route::apiResource('users', UserController::class);
     });

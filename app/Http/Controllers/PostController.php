@@ -27,6 +27,16 @@ class PostController extends Controller
             return $this->errorResponse(__('messages.unexpected_error'), ['error' => $e->getMessage()]);
         }
     }
+    public function show($id)
+    {
+        try {
+            $post = $this->postService->getById($id);
+            return $this->successResponse($post, __('messages.posts.show_success'));
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), [], $e->getCode() == 404 ? 404 : 500);
+        }
+    }
+
 
     public function store(PostRequest $request)
     {

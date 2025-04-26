@@ -40,7 +40,9 @@ class UserService
             $data['image'] = $this->storeImage($data['image'], 'user_images');
         }
 
-        return $this->userRepository->create($data);
+        $user = $this->userRepository->create($data);
+        $user->assignRole('Normal User');
+        return $user;
     }
 
     public function update($id, array $data)

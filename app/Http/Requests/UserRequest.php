@@ -23,7 +23,9 @@ class UserRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $userId,
-            'password' => $this->isMethod('post') ? 'required|string|min:6' : 'nullable|string|min:6',
+            'password' => $this->isMethod('post')
+                ? 'required|string|min:8|confirmed|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/'
+                : 'nullable|string|min:6|confirmed|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/',
             'image'   => $this->isMethod('post') ? 'required|image|max:2048' : 'nullable|image|max:2048',
 
         ];
@@ -38,6 +40,8 @@ class UserRequest extends FormRequest
             'email.unique' => __('messages.validation.email_unique'),
             'password.required' => __('messages.validation.password_required'),
             'password.min' => __('messages.validation.password_min'),
+            'password.confirmed' => __('messages.validation.password_confirmed'),
+            'password.regex' => __('messages.validation.password_regex'),
             'image.image'      => __('messages.validation.image_type'),
             'image.max'        => __('messages.validation.image_max'),
             'image.required'        => __('messages.validation.image_reuired'),

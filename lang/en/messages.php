@@ -28,9 +28,13 @@ return [
         'email_unique' => 'The email has already been taken.',
         'email_required' => 'The email field is required.',
         'email_invalid' => 'Please enter a valid email address.',
+        'email_exists' => 'The selected email does not exist.',
+
         'password_required' => 'The password field is required.',
         'password_min' => 'The password must be at least 6 characters.',
-        'email_exists' => 'The selected email does not exist.',
+        'password_confirmed' => 'The password confirmation does not match.',
+        'password_regex' => 'The password must contain at least one letter and one number.',
+
         'error_occurred' => 'Validation error. Please check your input.',
         'error_occurred'    => 'Validation error. Please check your input.',
         'title_required'    => 'The title field is required.',
@@ -58,6 +62,8 @@ return [
         'deleted'        => 'Post deleted successfully.',
         'unauthorized'   => 'You are not authorized to update this post.',
         'unauthorized_delete'   => 'You are not authorized to delete this post.',
+        'show_success' => 'Post retrieved successfully.',
+        'not_found' => 'The requested post was not found.',
     ],
 
     'comments' => [
